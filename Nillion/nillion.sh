@@ -1,25 +1,8 @@
 #!/bin/bash
 
-echo "Showing HCA logo..."
-wget -O loader.sh https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/loader.sh && chmod +x loader.sh && ./loader.sh
-curl -s https://raw.githubusercontent.com/DiscoverMyself/Ramanode-Guides/main/logo.sh | bash
-sleep 2
-
-echo "Welcome to the Nillion Verifier auto-installer by Happy Cuan Airdrop"
-echo ""
+echo "Welcome to the Nillion Verifier auto-installer"
 
 cd $HOME
-
-while true; do
-    echo "1. Visit: https://verifier.nillion.com/verifier, Connect your Keplr wallet, then click Verifier"
-    echo "2. Fund your connected wallet with NIL (Request Faucet here https://faucet.testnet.nillion.com/)"
-    read -p "Have you already funded your wallet? (y/n): " funded_wallet
-    if [ "$funded_wallet" == "y" ]; then
-        break
-    else
-        echo "Waiting for you to fund your wallet..."
-    fi
-done
 
 echo "Updating system and installing dependencies..."
 sudo apt update && sudo apt upgrade -y
@@ -45,6 +28,7 @@ else
 fi
 
 echo "Pulling the accuser image from Docker Hub..."
+
 docker pull nillion/retailtoken-accuser:v1.0.0
 
 echo "Initializing the accuser..."
@@ -94,7 +78,6 @@ echo "Sleeping for $sleep_time..."
 sleep $sleep_time
 
 echo "Running the accuser..."
+screen -S Nillion
 docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
 
-echo "The accuser is now running and will automatically accuse once the registration event is posted to the chain."
-echo "Subscribe: https://t.me/HappyCuanAirdrop."
