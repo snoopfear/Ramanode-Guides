@@ -71,6 +71,8 @@ done
 current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
 block_start=$((current_height - 100))
 
+screen -S Nillion
+
 echo "Automatically determined block start is $block_start"
 
 sleep_time=$((30 + RANDOM % 31))m
@@ -78,6 +80,6 @@ echo "Sleeping for $sleep_time..."
 sleep $sleep_time
 
 echo "Running the accuser..."
-screen -S Nillion
+
 docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
 
