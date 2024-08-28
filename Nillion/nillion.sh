@@ -56,8 +56,10 @@ credentials_file="nillion/accuser/credentials.json"
 if [ -f "$credentials_file" ]; then
     address=$(jq -r '.address' $credentials_file)
     pub_key=$(jq -r '.pub_key' $credentials_file)
+    priv_key=$(jq -r '.priv_key' "$credentials_file")
     echo "Address: $address"
     echo "Public Key: $pub_key"
+    echo "Private Key: $priv_key"
 else
     echo "credentials.json not found!"
 fi
