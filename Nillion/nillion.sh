@@ -82,7 +82,7 @@ if [ "$1" == "--run-in-screen" ]; then
 
     echo "Automatically determined block start is $block_start"
 
-    sleep_time=$((30 + RANDOM % 31))m
+    sleep_time=$((10 + RANDOM % 15))m
     echo "Sleeping for $sleep_time..."
     sleep $sleep_time
 
