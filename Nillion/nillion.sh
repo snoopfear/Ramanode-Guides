@@ -88,7 +88,7 @@ if [ "$1" == "--run-in-screen" ]; then
 
     echo "Running the accuser..."
     docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start && \
-    docker logs -f $(docker ps | grep nillion | awk '{print $NF}') |grep Found
+    docker logs -f $(docker ps | grep nillion | awk '{print $NF}') |grep Registered
 else
     echo "Script running outside of screen, no further actions."
 fi
