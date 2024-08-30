@@ -81,4 +81,3 @@ sleep $sleep_time
 echo "Running the accuser..."
 
 docker run -v ./nillion/accuser:/var/tmp nillion/retailtoken-accuser:v1.0.0 accuse --rpc-endpoint "https://testnet-nillion-rpc.lavenderfive.com" --block-start $block_start
-
