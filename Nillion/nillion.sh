@@ -4,24 +4,43 @@ echo "Welcome to the Nillion Verifier auto-installer"
 
 cd $HOME
 
+# Обновляем систему и устанавливаем зависимости
 echo "Updating system and installing dependencies..."
 sudo apt update && sudo apt upgrade -y
-sudo apt install -y screen jq curl gnupg
-screen -S Nillion
+sudo apt install -y jq curl gnupg
 
-# Check if Docker is installed
+# Проверяем, установлен ли screen
+if ! command -v screen &> /dev/null; then
+    echo "Screen is not installed. Installing screen..."
+    # Устанавливаем screen
+    sudo apt install -y screen
+
+    if ! command -v screen &> /dev/null; then
+        echo "Failed to install screen. Exiting..."
+        exit 1
+    fi
+else
+    echo "Screen is installed, proceeding..."
+fi
+
+# Проверка, выполняется ли скрипт в screen
+if [ -z "$STY" ]; then
+    echo "Запуск скрипта в новой screen-сессии..."
+    screen -S nillion_installer -dm bash "$0"
+    exit
+fi
+
+echo "Screen session is active, proceeding with the installation..."
+
+# Установка Docker
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed. Installing Docker..."
-    # Remove old versions if they exist
     sudo apt-get remove -y docker docker-engine docker.io containerd runc
 
-    # Add Docker's official GPG key
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
-    # Set up the Docker stable repository
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-    # Install Docker Engine
     sudo apt update
     sudo apt install -y docker-ce docker-ce-cli containerd.io
 else
