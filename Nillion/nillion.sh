@@ -7,6 +7,7 @@ cd $HOME
 echo "Updating system and installing dependencies..."
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y screen jq curl gnupg
+screen -S Nillion
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
@@ -70,8 +71,6 @@ done
 
 current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
 block_start=$((current_height - 100))
-
-screen -S Nillion
 
 echo "Automatically determined block start is $block_start"
 
