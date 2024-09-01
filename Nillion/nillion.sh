@@ -78,7 +78,7 @@ if [ "$1" == "--run-in-screen" ]; then
     done
 
     current_height=$(curl -s https://testnet-nillion-rpc.lavenderfive.com/abci_info | jq -r '.result.response.last_block_height')
-    block_start=$((current_height))
+    block_start=$((current_height-5))
 
     echo "Automatically determined block start is $block_start"
 
